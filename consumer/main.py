@@ -15,8 +15,7 @@ try:
         new_doc = json.loads(doc)
         new_doc["insertion_time"] = str(datetime.datetime.now())
         
-        
-        coll.insert_one(new_doc)
+        # coll.insert_one(new_doc)
         
 
 except Exception as error:

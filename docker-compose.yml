@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.1"
 
 services:
 
@@ -15,4 +15,45 @@ services:
     ports:
       - 27017:27017
     
+  api:
+    build: /analytics-api
+    container_name: api
+    ports:
+      - 8000:8000
     
+    depends_on:
+      - mongo
+      - redis
+      - consumer
+      - producer
+
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+      - DB_BAME=mydata
+      - DB_COLLECTION=alerts
+      - REDIS_HOST=redis
+  
+  producer:
+    build: /producer
+    container_name: producer
+    
+    depends_on:
+      - redis
+
+    environment:
+      - REDIS_HOST=redis
+
+  consumer:
+    build: /consumer
+    container_name: consumer
+  
+    depends_on:
+      - mongo
+      - redis
+      - producer
+
+    environment:
+      - REDIS_HOST=redis
+      - MONGO_URI=mongodb://mongo:27017
+      - DB_BAME=mydata
+      - DB_COLLECTION=alerts
