@@ -7,7 +7,7 @@ class MongoDal:
     def alerts_by_border_and_priority():
         coll = get_mongo_connection()
         pipeline = [{"$project":{"_id":0}},
-                    {"$group":{"_id":"$border","$priority":{"$sum":1}}},
+                    {"$group":{"_id":"$border","priority":{"$sum":1}}},
                     {"$sort":{"priority":-1}}]
         res = coll.aggregate(pipeline)
         return list(res)
@@ -45,3 +45,6 @@ class MongoDal:
         pipeline = []
         res = coll.aggregate(pipeline)
         return list(res)
+
+
+print(MongoDal.alerts_by_border_and_priority())
