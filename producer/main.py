@@ -28,10 +28,10 @@ try:
         priority = Priority_Classification_Rules(doc)
         if priority == "URGENT":
             doc["priority"] = "URGENT"
-            ingection_to_redis("queue_urgent",doc)
+            ingection_to_redis("urgent_queue",doc)
         elif priority == "NORMAL":
             doc["priority"] = "NORMAL"
-            ingection_to_redis("queue_normal",doc)
+            ingection_to_redis("normal_queue",doc)
 
 except Exception as error:
     print("ERROR:",error)
